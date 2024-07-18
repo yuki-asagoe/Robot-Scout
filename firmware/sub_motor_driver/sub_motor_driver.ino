@@ -104,9 +104,9 @@ void loop(){
   if(now - limit_switch_output_timer_2>100){
     limit_switch_output_timer_1=now;
     uint16_t a_in=analogRead(INPUT2_1)
-    if(motor2_direction>0 && motor2_stop_level<a_in){
+    if(motor2_direction>0 && motor2_stop_level<=a_in){
       motorStop(2);
-    }else if(motor2_direction < 0 && motor2_stop_level>a_in){
+    }else if(motor2_direction < 0 && motor2_stop_level>=a_in){
       motorStop(2);
     }
   }
