@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -26,6 +27,7 @@ namespace Wimm.Machines.Impl.Scout.Tpip4.Component
             }
             var data = messages.ToArray();
             Array.Fill(MessagesBuffer, null);
+            Debug.WriteLine($"Scout Motor Driver (DEC:{this.I2CAddress}) : {data.Length} byte sent");
             TPJT4.NativeMethods.Send_I2Cdata(0, data, I2CAddress, data.Length);
         }
 

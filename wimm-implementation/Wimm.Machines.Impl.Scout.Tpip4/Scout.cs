@@ -6,6 +6,7 @@ using Wimm.Machines.TpipForRasberryPi;
 
 namespace Wimm.Machines.Impl.Scout.Tpip4
 {
+    [LoadTarget]
     public class Scout : TpipForRasberryPiMachine
     {
         public override string Name => "スカウト";
@@ -22,6 +23,7 @@ namespace Wimm.Machines.Impl.Scout.Tpip4
         {
             Camera = new Tpip4Camera("__");
             if (args is not null && Camera is Tpip4Camera camera) { Hwnd?.AddHook(camera.WndProc); }
+            MotorDrivers = [new MotorDriver(0x55)];
             Information = [
                 new InformationNode("MotorDriver",
                     MotorDrivers.Select(it =>
@@ -31,7 +33,6 @@ namespace Wimm.Machines.Impl.Scout.Tpip4
                     ).ToImmutableArray()
                 )
             ];
-            MotorDrivers = [new MotorDriver(0x55)];
             {
                 var speedModifier = () => SpeedModifier;
                 StructuredModules = new ModuleGroup("modules",

@@ -41,13 +41,12 @@ namespace Wimm.Machines.Impl.Scout.Tpip4.Component
             );
         public void Rotation(double speed)
         {
-            double speedModifier = SpeedModifierProvider();
             MotorDriver.MotorMode mode;
-            if (Math.Abs(speedModifier) < 0.0001)
+            if (Math.Abs(speed) < 0.0001)
             {
                 mode = MotorDriver.MotorMode.Stop;
             }
-            else if (speedModifier > 0)
+            else if (speed > 0)
             {
                 mode = MotorDriver.MotorMode.Drive;
             }
@@ -55,7 +54,6 @@ namespace Wimm.Machines.Impl.Scout.Tpip4.Component
             {
                 mode = MotorDriver.MotorMode.ReverseDrive;
             }
-            speedModifier = Math.Clamp(speedModifier, 0, 1);
             HostDriver.Put(new MotorDriver.Message(MotorID, mode));
         }
         public void Brake()

@@ -154,13 +154,15 @@ MotorDriver drivers[]={
   MotorDriver(A0,A1,MotorStopper(3)),
   MotorDriver(A3,A2,MotorStopper(4))
 };
+long int lastI2CTimeStamp=0;
 
 void onReceive(int length){
   Serial.println("message receive");
+  lastI2CTimeStamp=millis();
   while(Wire.available()){
     int data=Wire.read();
     Serial.println(data);
-    int id=(data & 0b11110000) >> 2;
+    int id=(data & 0b11110000) >> 4;
     if(id>=5){
       Serial.print("Target ID is ");
       Serial.print(id);
@@ -175,6 +177,7 @@ void onReceive(int length){
   }
 }
 void onRequest(void){
+  lastI2CTimeStamp=millis();
   Serial.println("I2C Request Received :");
   Wire.write(I2C_ADDRESS);
 }
@@ -191,16 +194,32 @@ void setup() {
 }
 
 long int lastStopperTimeStamp=0;
+int stopMessageCount=0;
 void loop() {
   long int time = millis();
-  long int timePassedFromStopperCheck=lastStopperTimeStamp-time;
+  long int timePassedFromStopperCheck=time-lastStopperTimeStamp;
+  long int timePassedFromI2c=time-lastI2CTimeStamp;
 
   if(timePassedFromStopperCheck>100){
     bool stopperWorking=false;
     lastStopperTimeStamp=time;
-    for(int i=0;i<5;i++){
-      drivers[i].updateStopper();
-      stopperWorking|=drivers[i].checkStopper();
+    if(timePassedFromI2c<1000){
+      for(int i=0;i<5;i++){
+        drivers[i].updateStopper();
+        stopperWorking|=drivers[i].checkStopper();
+      }
+      if(stopperWorking){
+        Serial.println("Stopper Working");
+      }
+    }else{
+      for(int i=0;i<5;i++){
+        drivers[i].changeState(DrivingMode::Stop);
+      }
+      stopMessageCount++;
+      if(stopMessageCount>10){
+        stopMessageCount=0;
+        Serial.println("I2C not received : Motor stopping");
+      }
     }
   }
 }

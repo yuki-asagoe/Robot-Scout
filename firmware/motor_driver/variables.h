@@ -1,4 +1,4 @@
-const int I2C_ADDRESS=55;
+const int I2C_ADDRESS=0x55;
 
 enum class LimitType{
   None,Drive,Reverse,All
@@ -10,10 +10,10 @@ struct MotorLimit{
 };
 
 MotorLimit MotorLimits[]={
-  {0,LimitType::Drive},//1
-  {0,LimitType::Reverse},//2
-  {1,LimitType::Drive},//3
-  {1,LimitType::Reverse},//4
-  {2,LimitType::Drive},//5
-  {2,LimitType::Reverse},//6
+  {0,LimitType::None},//1
+  {0,LimitType::None},//2
+  {1,LimitType::None},//3
+  {1,LimitType::None},//4
+  {2,LimitType::None},//5
+  {2,LimitType::None},//6
 };

@@ -53,11 +53,6 @@ void setup(){
     if(Limit_Switch_For_M1 == Limit_Switch_Type::OR) Serial.println(" pin and INPUT1_2 pin.");
     else Serial.println(".");
   }
-  if((int)Limit_Switch_For_M2){
-    Serial.print("This board is accepting a limit switch input for M2 with INPUT2_1");
-    if(Limit_Switch_For_M2 == Limit_Switch_Type::OR) Serial.println(" pin and INPUT2_2 pin.");
-    else Serial.println(".");
-  }
   Serial.println("Git Repository - https://github.com/yuki-asagoe/Robot-Caucasus");
   delay(100);
 }
@@ -72,7 +67,7 @@ void loop(){
     motorStop(2);
     digitalWrite(STAT_LED2,HIGH);
   }else{
-    if((int)motor1_limit || (int)motor2_limit){//リミットスイッチ検知
+    if((int)motor1_limit){//リミットスイッチ検知
       if((now/200) & 1 == 1){//200ms間隔
         digitalWrite(STAT_LED2,HIGH);
       }else{
@@ -103,10 +98,10 @@ void loop(){
   }
   if(now - limit_switch_output_timer_2>100){
     limit_switch_output_timer_1=now;
-    uint16_t a_in=analogRead(INPUT2_1)
-    if(motor2_direction>0 && motor2_stop_level<=a_in){
+    uint16_t a_in=analogRead(INPUT2_1);
+    if(motor2_direction>0 && m2_stop_level<=a_in){
       motorStop(2);
-    }else if(motor2_direction < 0 && motor2_stop_level>=a_in){
+    }else if(motor2_direction < 0 && m2_stop_level>=a_in){
       motorStop(2);
     }
   }
