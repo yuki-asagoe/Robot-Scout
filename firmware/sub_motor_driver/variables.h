@@ -1,5 +1,5 @@
 const int CAN_Speed=CAN_250KBPS;
-const uint8_t CAN_Self_Address=1;
+const uint8_t CAN_Self_Address=0x2;
 
 enum class Limit_Switch_Type : int{
   //無効化
@@ -10,5 +10,5 @@ enum class Limit_Switch_Type : int{
   OR=2
 };
 
-const Limit_Switch_Type Limit_Switch_For_M1 = Limit_Switch_Type::Disabled;
+const Limit_Switch_Type Limit_Switch_For_M1 = Limit_Switch_Type::Single;
 const bool Detailed_Logging_Enabled=true;

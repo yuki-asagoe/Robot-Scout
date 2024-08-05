@@ -26,7 +26,7 @@ namespace Wimm.Machines.Impl.Scout.Tpip4.Can
         /// </returns>
         public ushort Construct()
         {
-            return (ushort)((byte)MessageType << 8 | (byte)SourceAddress << 4 | (byte)DestinationAddress);
+            return (ushort)(((byte)MessageType << 8) | ((byte)SourceAddress << 4) | ((byte)DestinationAddress));
         }
     }
     internal enum CanDataType : byte

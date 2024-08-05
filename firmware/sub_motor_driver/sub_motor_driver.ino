@@ -27,7 +27,7 @@ signed int motor2_direction=0;
 uint16_t m2_stop_level=0;
 
 void setup(){
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(STAT_LED1, OUTPUT); // CAN メッセージ受信したら光る
   pinMode(STAT_LED2, OUTPUT); // CAN制御信号が1秒途切れ(てセーフティが発動し)たら光る, セーフティ非動作中はリミットスイッチの入力検知で点滅
 
@@ -84,7 +84,7 @@ void loop(){
   }
   if((int)motor1_limit){
     ///300秒間隔でリミットスイッチ押下のフィードバック
-    if(now - limit_switch_output_timer_1>100){
+    if(now - limit_switch_output_timer_1>300){
       Serial.println("M1: Reaching Limit");
       limit_switch_output_timer_1=now;
     }
@@ -97,7 +97,7 @@ void loop(){
     }
   }
   if(now - limit_switch_output_timer_2>100){
-    limit_switch_output_timer_1=now;
+    limit_switch_output_timer_2=now;
     uint16_t a_in=analogRead(INPUT2_1);
     if(motor2_direction>0 && m2_stop_level<=a_in){
       motorStop(2);

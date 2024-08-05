@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace Wimm.Machines.Impl.Scout.Tpip4.Can
             var copiedData = new byte[8];
             Data.CopyTo(copiedData, 0);
             message.data = copiedData;
+            Debug.WriteLine($"Destination : {ID.DestinationAddress:X} / Source : {ID.SourceAddress:X} / Type : {ID.MessageType}({(int)ID.MessageType}:X)");
+            Debug.WriteLine($"CAN data send to board {targetBoardNumber} with size {Data.Length} : Type {message.STD_ID:X})");
             var error = TPJT4.NativeMethods.Send_CANdata(targetBoardNumber, ref message, Data.Length);
             return error != 0;
         }

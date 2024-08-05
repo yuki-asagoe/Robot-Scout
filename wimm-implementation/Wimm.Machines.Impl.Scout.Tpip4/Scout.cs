@@ -13,8 +13,8 @@ namespace Wimm.Machines.Impl.Scout.Tpip4
         private ImmutableArray<MotorDriver> MotorDrivers;
         private CanCommunicationUnit SubMotorUnit=new(
             new() {
-                DestinationAddress=(CanDestinationAddress)0x55,
-                SourceAddress=(CanDestinationAddress)0x22,
+                DestinationAddress=(CanDestinationAddress)2,
+                SourceAddress=(CanDestinationAddress)1,
                 MessageType=CanDataType.Command
             },
             5
